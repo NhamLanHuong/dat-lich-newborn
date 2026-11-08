@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="vi">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Đặt lịch Newborn Angel Studio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: một trang cuộn dọc theo 4 bước đặt lịch, thanh tóm tắt dính đáy; nhận diện Angel Studio (nâu đồng #9d6c47 + nâu đỏ #7c2a17, tint be ấm); song ngữ VI/EN */
+:root{
+  --bg:#f7f1ea; --bg-2:#fffaf4; --card:#ffffff; --fg:#2c1f17; --muted:#73604f;
+  --line:#e4d5c5; --brand:#9d6c47; --brand-2:#7c2a17; --brand-soft:#efe1d2; --brand-tint:#f6ece1;
+  --ok:#3f7a4a; --ok-soft:#e3f0e4; --warn:#9a6a00; --warn-soft:#fbefcf; --bad:#a1372b;
+  --shadow:0 10px 30px rgba(92,56,30,.10);
+  --display:"Lexend","Be Vietnam Pro",system-ui,sans-serif;
+  --body:"Be Vietnam Pro","Lexend",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#1c1511; --bg-2:#231a15; --card:#2a201a; --fg:#f3eae0; --muted:#c3ae9b;
+  --line:#44352b; --brand:#c99467; --brand-2:#e07a5f; --brand-soft:#3a2b21; --brand-tint:#2f241d;
+  --ok:#8fcf98; --ok-soft:#24352a; --warn:#f0c860; --warn-soft:#3d3218; --bad:#f08b7d;
+  --shadow:0 10px 30px rgba(0,0,0,.35); color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#1c1511; --bg-2:#231a15; --card:#2a201a; --fg:#f3eae0; --muted:#c3ae9b;
+  --line:#44352b; --brand:#c99467; --brand-2:#e07a5f; --brand-soft:#3a2b21; --brand-tint:#2f241d;
+  --ok:#8fcf98; --ok-soft:#24352a; --warn:#f0c860; --warn-soft:#3d3218; --bad:#f08b7d;
+  --shadow:0 10px 30px rgba(0,0,0,.35); color-scheme:dark }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} *{transition:none!important;animation:none!important} }
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;
+  padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg-2)}
+img{max-width:100%;display:block}
+h1,h2,h3,h4{font-family:var(--display);font-weight:500;line-height:1.2;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+a{color:var(--brand-2)}
+button{font:inherit;color:inherit;cursor:pointer}
+input,select,textarea{font:inherit;color:var(--fg)}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font-family:var(--display);font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;color:var(--brand);font-weight:500}
+.muted{color:var(--muted)}
+.small{font-size:.9rem}
+.logo-dark{display:none}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .logo-light{display:none} :root:not([data-theme="light"]) .logo-dark{display:block} }
+:root[data-theme="dark"] .logo-light{display:none} :root[data-theme="dark"] .logo-dark{display:block}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--bg-2) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:10px}
+.top img{height:46px;width:auto}
+.top .contact{display:flex;gap:12px;align-items:center;font-size:.92rem}
+.top .contact .addr{color:var(--muted);margin-right:6px}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
+.lang button{border:0;background:transparent;padding:7px 11px;font-family:var(--display);font-size:.82rem;color:var(--muted);letter-spacing:.04em}
+.lang button[aria-pressed="true"]{background:var(--brand-2);color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:11px 20px;border:1px solid transparent;font-family:var(--display);font-weight:500;text-decoration:none;transition:transform .15s,background .15s}
+.btn-primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+.btn-primary:hover{background:var(--brand-2);border-color:var(--brand-2)}
+.btn-ghost{background:transparent;border-color:var(--line);color:var(--fg)}
+.btn-ghost:hover{border-color:var(--brand)}
+.btn:active{transform:translateY(1px)}
+@media (max-width:760px){ .top .contact .addr{display:none} .top .contact .btn{padding:9px 14px} .top img{height:40px} }
+
+/* hero */
+.hero{padding-block:40px 28px}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}
+.hero h1{font-size:clamp(1.9rem,4vw,3rem);font-weight:400}
+.hero h1 b{font-weight:600;color:var(--brand)}
+.hero .lead{margin-top:16px;max-width:36rem;font-size:1.05rem}
+.hero .facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:.92rem;display:flex;gap:10px;align-items:center}
+.fact strong{font-family:var(--display);font-weight:500;color:var(--brand-2);font-size:1.05rem;font-variant-numeric:tabular-nums}
+.hero .cta{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.hero-art{position:relative;aspect-ratio:4/3;max-width:100%}
+.hero-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:22px;box-shadow:var(--shadow)}
+.hero-art .tag{position:absolute;left:16px;bottom:16px;background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(6px);border-radius:12px;padding:8px 12px;font-size:.85rem;border:1px solid var(--line)}
+@media (max-width:860px){ .hero .wrap{grid-template-columns:1fr} .hero-art{order:-1;aspect-ratio:16/10} }
+
+/* steps */
+.steps-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0 0}
+.steps-nav a{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);text-decoration:none;color:var(--fg);font-size:.9rem}
+.steps-nav a .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand-2);font-family:var(--display);font-weight:600;font-size:.85rem;flex:none}
+.steps-nav a.done .n{background:var(--ok);color:#fff}
+@media (max-width:720px){ .steps-nav{grid-template-columns:repeat(2,1fr)} }
+section.step{padding-block:44px 8px;scroll-margin-top:90px}
+.step-head{display:flex;gap:16px;align-items:flex-start;margin-bottom:22px}
+.step-head .n{width:42px;height:42px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:1.1rem;flex:none}
+.step-head h2{font-size:clamp(1.4rem,2.6vw,1.9rem)}
+.step-head p{margin-top:6px;color:var(--muted);max-width:40rem}
+
+/* packages */
+.pkgs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pkg{position:relative;background:var(--card);border:2px solid var(--line);border-radius:20px;padding:22px 22px 18px;text-align:left;display:flex;flex-direction:column;gap:12px;transition:border-color .15s,box-shadow .15s;min-width:0}
+.pkg:hover{border-color:var(--brand)}
+.pkg[aria-pressed="true"]{border-color:var(--brand-2);box-shadow:var(--shadow)}
+.pkg .name{font-family:var(--display);font-size:1.35rem;font-weight:500}
+.pkg .price{font-family:var(--display);font-size:1.6rem;color:var(--brand-2);font-weight:600;font-variant-numeric:tabular-nums}
+.pkg .price small{font-size:.85rem;color:var(--muted);font-weight:400}
+.pkg ul{margin:0;padding-left:18px;color:var(--fg);font-size:.95rem;display:grid;gap:6px}
+.pkg .gift{background:var(--brand-tint);border-radius:10px;padding:8px 10px;font-size:.88rem;color:var(--brand-2)}
+.pkg .check{position:absolute;top:14px;right:14px;width:28px;height:28px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;color:#fff;font-size:.9rem}
+.pkg[aria-pressed="true"] .check{background:var(--brand-2);border-color:var(--brand-2)}
+.pkg .badge{position:absolute;top:-12px;left:18px;background:var(--brand-2);color:#fff;border-radius:999px;padding:3px 10px;font-size:.75rem;font-family:var(--display);letter-spacing:.04em}
+@media (max-width:860px){ .pkgs{grid-template-columns:1fr} }
+.notes{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.9rem;color:var(--muted)}
+.notes span::before{content:"•";color:var(--brand);margin-right:6px}
+
+/* concepts */
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px}
+.seg{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px}
+.seg button{border:0;background:transparent;border-radius:999px;padding:8px 16px;font-family:var(--display);font-size:.92rem;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--brand);color:#fff}
+.counter{font-family:var(--display);font-size:.95rem;padding:8px 14px;border-radius:999px;background:var(--brand-soft);color:var(--brand-2)}
+.counter.full{background:var(--ok-soft);color:var(--ok)}
+.concepts{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+@media (max-width:760px){ .concepts{grid-template-columns:1fr} }
+.concept{background:var(--card);border:2px solid var(--line);border-radius:20px;overflow:hidden;transition:border-color .15s,box-shadow .15s;min-width:0}
+.concept.on{border-color:var(--brand-2);box-shadow:var(--shadow)}
+.concept .gal{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:3px;height:220px}
+.concept .gal button{border:0;padding:0;background:var(--brand-soft);overflow:hidden;position:relative}
+.concept .gal button:first-child{grid-row:1 / span 2}
+.concept .gal img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.concept .gal button:hover img{transform:scale(1.04)}
+.concept .gal .more{position:absolute;inset:0;display:grid;place-items:center;background:rgba(40,24,14,.45);color:#fff;font-family:var(--display);font-weight:500}
+.concept .body{padding:14px 16px 16px;display:flex;gap:12px;align-items:flex-start}
+.concept h3{font-size:1.1rem}
+.concept .desc{color:var(--muted);font-size:.9rem;margin-top:4px}
+.concept .season{display:inline-block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-2);background:var(--brand-tint);border-radius:999px;padding:2px 8px;margin-bottom:6px;font-family:var(--display)}
+.concept .pick{flex:none;margin-left:auto;border-radius:999px;border:1.5px solid var(--brand);background:transparent;color:var(--brand);padding:8px 14px;font-family:var(--display);font-size:.88rem;white-space:nowrap}
+.concept.on .pick{background:var(--brand-2);border-color:var(--brand-2);color:#fff}
+.custom{margin-top:16px;background:var(--card);border:1px dashed var(--brand);border-radius:16px;padding:16px;display:grid;gap:8px}
+.custom textarea{width:100%;min-height:64px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg-2);resize:vertical}
+
+/* form */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 20px}
+@media (max-width:720px){ .form-grid{grid-template-columns:1fr} }
+.field{display:grid;gap:6px;min-width:0}
+.field label{font-family:var(--display);font-size:.9rem;font-weight:500}
+.field .hint{font-size:.82rem;color:var(--muted)}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:var(--card);min-width:0}
+.field textarea{min-height:80px;resize:vertical}
+.field.full{grid-column:1 / -1}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:8px 14px;font-family:var(--display);font-size:.9rem}
+.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.age-note{border-radius:12px;padding:10px 12px;font-size:.9rem;background:var(--brand-tint);display:none}
+.age-note.show{display:block}
+.age-note.ok{background:var(--ok-soft);color:var(--ok)}
+.age-note.warn{background:var(--warn-soft);color:var(--warn)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px}
+.checkrow{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.checkrow input{width:20px;height:20px;accent-color:var(--brand)}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-left:auto}
+.stepper button{border:0;background:var(--brand-soft);width:34px;height:32px;color:var(--brand-2);font-size:1.1rem}
+.stepper output{min-width:34px;text-align:center;font-variant-numeric:tabular-nums;font-family:var(--display)}
+
+/* summary */
+.summary{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:start}
+@media (max-width:860px){ .summary{grid-template-columns:1fr} }
+.sum-list{display:grid;gap:10px}
+.sum-row{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+.sum-row:last-child{border-bottom:0}
+.sum-row .k{color:var(--muted);flex:none}
+.sum-row .v{text-align:right;font-variant-numeric:tabular-nums}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;padding-top:12px;border-top:2px solid var(--brand)}
+.total .v{font-family:var(--display);font-size:1.5rem;color:var(--brand-2);font-weight:600;font-variant-numeric:tabular-nums}
+.msgbox{width:100%;min-height:280px;border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--bg-2);font-family:var(--body);font-size:.9rem;line-height:1.55;white-space:pre-wrap;resize:vertical}
+.send{display:grid;gap:10px;margin-top:12px}
+.btn-zalo{background:#0068ff;color:#fff;border-color:#0068ff;padding:14px 20px;font-size:1.02rem}
+.btn-zalo:hover{background:#0052cc;border-color:#0052cc}
+.btn-fb{background:transparent;border-color:var(--line);color:var(--fg)}
+.toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--fg);color:var(--bg);padding:12px 18px;border-radius:999px;font-family:var(--display);font-size:.92rem;opacity:0;pointer-events:none;transition:all .25s;z-index:20;max-width:calc(100vw - 32px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.missing{color:var(--bad);font-size:.9rem;display:none}
+.missing.show{display:block}
+
+/* prepare */
+.prep{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:760px){ .prep{grid-template-columns:1fr} }
+.prep .card h3{font-size:1.15rem;display:flex;gap:10px;align-items:center;margin-bottom:14px}
+.prep .card h3 .ico{width:34px;height:34px;border-radius:10px;background:var(--brand-soft);display:grid;place-items:center;color:var(--brand-2);font-size:1.1rem}
+.prep ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.prep li{display:flex;gap:10px;font-size:.95rem}
+.prep li::before{content:"✓";color:var(--ok);font-weight:700;flex:none}
+.prep .card.studio li::before{content:"✦";color:var(--brand)}
+.timeline{margin-top:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media (max-width:760px){ .timeline{grid-template-columns:1fr 1fr} }
+.tl{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;min-width:0}
+.tl .when{font-family:var(--display);color:var(--brand-2);font-weight:500;font-size:.9rem}
+.tl p{font-size:.9rem;margin-top:6px}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:0 16px}
+details+details{margin-top:8px}
+summary{cursor:pointer;padding:14px 0;font-family:var(--display);font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::after{content:"+";color:var(--brand);font-size:1.3rem;line-height:1}
+details[open] summary::after{content:"–"}
+details p{padding-bottom:14px;color:var(--muted);font-size:.95rem}
+
+/* gallery */
+.gallery{columns:4;column-gap:10px}
+@media (max-width:1000px){ .gallery{columns:3} }
+@media (max-width:640px){ .gallery{columns:2} }
+.gallery button{display:block;width:100%;border:0;padding:0;margin:0 0 10px;border-radius:12px;overflow:hidden;background:var(--brand-soft);break-inside:avoid;position:relative}
+.gallery img{width:100%;height:auto;transition:transform .3s}
+.gallery button:hover img{transform:scale(1.03)}
+.gallery .gtag{position:absolute;left:8px;bottom:8px;font-size:.7rem;font-family:var(--display);letter-spacing:.06em;text-transform:uppercase;color:#fff;background:rgba(40,24,14,.55);border-radius:999px;padding:2px 8px}
+.gal-more{display:flex;justify-content:center;margin-top:18px}
+.more-link{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-family:var(--display);font-size:.95rem;color:var(--brand-2);text-decoration:none;border-bottom:1px solid currentColor}
+
+/* footer */
+footer{margin-top:50px;background:var(--brand);color:#fff}
+footer .wrap{padding-block:30px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+footer img{height:70px;width:auto}
+footer a{color:#fff}
+footer .links{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.9rem;margin-top:8px}
+@media (max-width:720px){ footer .wrap{grid-template-columns:1fr} }
+
+/* sticky bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:8;background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));transform:translateY(110%);transition:transform .25s}
+.bar.show{transform:none}
+.bar .in{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:14px;justify-content:space-between}
+.bar .txt{font-size:.9rem;min-width:0;display:grid}
+.bar .txt b{font-family:var(--display);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .txt span{color:var(--muted);font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .btn{white-space:nowrap;flex:none}
+
+/* lightbox */
+.lb{position:fixed;inset:0;background:rgba(20,12,8,.92);z-index:30;display:none;align-items:center;justify-content:center;padding:16px}
+.lb.show{display:flex}
+.lb img{max-width:min(96vw,1100px);max-height:82vh;width:auto;height:auto;border-radius:12px;object-fit:contain}
+.lb .cap{position:absolute;left:0;right:0;bottom:calc(16px + env(safe-area-inset-bottom,0px));text-align:center;color:#fff;font-family:var(--display);font-size:.95rem;padding:0 60px}
+.lb button{position:absolute;border:0;background:rgba(255,255,255,.14);color:#fff;width:46px;height:46px;border-radius:50%;font-size:1.3rem;display:grid;place-items:center}
+.lb .x{top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px))}
+.lb .prev{left:calc(10px + env(safe-area-inset-left,0px));top:50%;transform:translateY(-50%)}
+.lb .next{right:calc(10px + env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%)}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a href="#top" aria-label="Angel Studio"><img class="logo-light" src="img/logo.png" alt="Newborn Photography – Angel Studio"><img class="logo-dark" src="img/logo-white.png" alt="Newborn Photography – Angel Studio"></a>
+    <div class="contact">
+      <span class="addr" data-i18n="addr">37–39 Trần Quang Diệu, Ô Chợ Dừa, Hà Nội</span>
+      <div class="lang" role="group" aria-label="Ngôn ngữ / Language">
+        <button type="button" data-lang="vi" aria-pressed="true">VI</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn btn-primary" href="#buoc-1" data-i18n="book">Đặt lịch</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow" data-i18n="hero.eyebrow">Chụp ảnh sơ sinh tại nhà · Hà Nội</div>
+      <h1 style="margin-top:10px" data-i18n="hero.h1">Giữ lại những ngày <b>bé nhỏ nhất</b>, ngay tại nhà mình</h1>
+      <p class="lead" data-i18n="hero.lead">Ekip anh Hùng, chị Hương mang đèn, phông, đạo cụ và trang phục đã tiệt trùng đến tận nhà. Bé ngủ say trong kén, bố mẹ chỉ việc chọn concept và hẹn ngày.</p>
+      <div class="facts">
+        <div class="fact"><strong>7–15</strong><span data-i18n="fact.1">ngày tuổi là lúc bé đẹp nhất</span></div>
+        <div class="fact"><strong>30′</strong><span data-i18n="fact.2">mỗi concept, bé ngủ suốt buổi</span></div>
+        <div class="fact"><strong>10+</strong><span data-i18n="fact.3">năm chủ studio trực tiếp chụp</span></div>
+      </div>
+      <div class="cta">
+        <a class="btn btn-primary" href="#buoc-1" data-i18n="hero.cta1">Bắt đầu chọn gói</a>
+        <a class="btn btn-ghost" href="#chuan-bi" data-i18n="hero.cta2">Xem cần chuẩn bị gì</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="img/g070.jpg" alt="Bé sơ sinh quấn kén trắng ngủ trong giỏ hoa – Angel Studio" fetchpriority="high">
+      <div class="tag" data-i18n="hero.tag">Tặng gói tư vấn đặt tên cho bé khi đặt gói VIP</div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <nav class="steps-nav" aria-label="Các bước đặt lịch">
+    <a href="#buoc-1" id="nav1"><span class="n">1</span><span data-i18n="nav.1">Chọn gói</span></a>
+    <a href="#buoc-2" id="nav2"><span class="n">2</span><span data-i18n="nav.2">Chọn concept</span></a>
+    <a href="#buoc-3" id="nav3"><span class="n">3</span><span data-i18n="nav.3">Ngày chụp & liên hệ</span></a>
+    <a href="#buoc-4" id="nav4"><span class="n">4</span><span data-i18n="nav.4">Gửi Zalo cho studio</span></a>
+  </nav>
+</div>
+
+<!-- BƯỚC 1 -->
+<section class="step" id="buoc-1">
+  <div class="wrap">
+    <div class="step-head"><div class="n">1</div><div><h2 data-i18n="s1.h">Chọn gói chụp sơ sinh VIP</h2><p data-i18n="s1.p">Toàn bộ gói đều trả đủ file gốc, 30 file chỉnh sửa và miễn phí người nhà chụp cùng bé.</p></div></div>
+    <div class="pkgs" id="pkgs"></div>
+    <div class="notes">
+      <span data-i18n="note.1">Chi phí di chuyển 15.000đ/km</span><span data-i18n="note.2">Chụp cuối tuần phụ phí 500.000đ</span><span data-i18n="note.3">Sinh đôi phụ phí 40%</span><span data-i18n="note.4">Make up 400.000đ/mặt</span><span data-i18n="note.5">Miễn phí người nhà chụp cùng bé</span>
+    </div>
+  </div>
+</section>
+
+<!-- BƯỚC 2 -->
+<section class="step" id="buoc-2">
+  <div class="wrap">
+    <div class="step-head"><div class="n">2</div><div><h2 data-i18n="s2.h">Tick chọn concept cho bé</h2><p data-i18n="s2.p">Bấm vào ảnh để xem lớn. Chọn đủ số concept của gói, hoặc gửi ý tưởng riêng để ekip chuẩn bị đạo cụ trước một ngày.</p></div></div>
+    <div class="toolbar">
+      <div class="seg" role="group" aria-label="Giới tính bé">
+        <button type="button" data-g="girl" aria-pressed="true" data-i18n="g.girl">Bé gái</button>
+        <button type="button" data-g="boy" aria-pressed="false" data-i18n="g.boy">Bé trai</button>
+        <button type="button" data-g="any" aria-pressed="false" data-i18n="g.any">Chưa biết</button>
+      </div>
+      <div class="counter" id="counter"></div>
+    </div>
+    <div class="concepts" id="concepts"></div>
+    <div class="custom">
+      <label for="custom" style="font-family:var(--display);font-weight:500" data-i18n="custom.l">Ý tưởng riêng của gia đình (không bắt buộc)</label>
+      <textarea id="custom" data-i18n-ph="custom.ph" placeholder="Ví dụ: chụp cùng áo len bà đan, bảng tên bé, bộ đồ nghề của bố, màu chủ đạo xanh dương…"></textarea>
+      <p class="small muted" data-i18n="custom.p">Ekip hỗ trợ lên ý tưởng theo tên bé, nghề của bố mẹ hoặc kỷ vật gia đình.</p>
+    </div>
+    <a class="more-link" href="#thu-vien" data-i18n="gal.link">Xem thêm 200 ảnh Angel Studio đã chụp →</a>
+  </div>
+</section>
+
+<!-- BƯỚC 3 -->
+<section class="step" id="buoc-3">
+  <div class="wrap">
+    <div class="step-head"><div class="n">3</div><div><h2 data-i18n="s3.h">Hẹn ngày chụp & thông tin liên hệ</h2><p data-i18n="s3.p">Ngày thường không phụ phí. Ekip xếp theo giờ bé thường ngủ sâu nhất.</p></div></div>
+    <div class="card">
+      <div class="form-grid">
+        <div class="field">
+          <label for="dob" data-i18n="f.dob">Ngày sinh của bé (hoặc ngày dự sinh)</label>
+          <input type="date" id="dob">
+          <div class="age-note" id="ageNote"></div>
+        </div>
+        <div class="field">
+          <label for="date" data-i18n="f.date">Ngày chụp mong muốn</label>
+          <input type="date" id="date">
+          <div class="hint" id="dateHint"></div>
+        </div>
+        <div class="field full">
+          <label data-i18n="f.slot">Khung giờ</label>
+          <div class="chips" id="slots">
+            <button type="button" class="chip" data-slot="09:00" aria-pressed="true" data-i18n="slot.am">Sáng 9:00</button>
+            <button type="button" class="chip" data-slot="14:00" aria-pressed="false" data-i18n="slot.pm">Chiều 14:00</button>
+            <button type="button" class="chip" data-slot="other" aria-pressed="false" data-i18n="slot.other">Giờ khác</button>
+            <input type="time" id="otherTime" style="display:none;border:1px solid var(--line);border-radius:999px;padding:7px 12px;background:var(--card)">
+          </div>
+        </div>
+        <div class="field">
+          <label for="name" data-i18n="f.name">Tên bố / mẹ</label>
+          <input type="text" id="name" data-i18n-ph="f.name.ph" placeholder="Ví dụ: Chị Lan" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="phone" data-i18n="f.phone">Số điện thoại / Zalo</label>
+          <input type="tel" id="phone" placeholder="09xx xxx xxx" autocomplete="tel" inputmode="tel">
+        </div>
+        <div class="field full">
+          <label for="addr" data-i18n="f.addr">Địa chỉ nhà (nơi chụp)</label>
+          <input type="text" id="addr" data-i18n-ph="f.addr.ph" placeholder="Số nhà, đường, quận/huyện" autocomplete="street-address">
+          <div class="hint" data-i18n="f.addr.hint">Phí di chuyển tính 15.000đ/km từ 37 Trần Quang Diệu, Đống Đa. Ekip sẽ báo con số chính xác khi xác nhận.</div>
+        </div>
+        <div class="field">
+          <label data-i18n="f.park">Gần nhà có chỗ đỗ ô tô?</label>
+          <div class="chips" id="parking">
+            <button type="button" class="chip" data-p="yes" aria-pressed="false" data-i18n="park.yes">Có</button>
+            <button type="button" class="chip" data-p="no" aria-pressed="false" data-i18n="park.no">Không</button>
+            <button type="button" class="chip" data-p="unknown" aria-pressed="false" data-i18n="park.unknown">Chưa rõ</button>
+          </div>
+          <div class="hint" data-i18n="f.park.hint">Ekip mang khá nhiều đồ nên cần biết trước.</div>
+        </div>
+        <div class="field">
+          <label data-i18n="f.extra">Thêm cho buổi chụp</label>
+          <div style="display:grid;gap:8px">
+            <label class="checkrow"><input type="checkbox" id="twins"><span data-i18n="f.twins">Bé sinh đôi <span class="muted small">(+40%)</span></span></label>
+            <div class="checkrow"><span data-i18n="f.mu">Make up cho mẹ / người nhà <span class="muted small">(400.000đ/mặt)</span></span>
+              <div class="stepper"><button type="button" id="muMinus" aria-label="Bớt">−</button><output id="muOut">0</output><button type="button" id="muPlus" aria-label="Thêm">+</button></div></div>
+          </div>
+        </div>
+        <div class="field full">
+          <label for="note" data-i18n="f.note">Ghi chú thêm</label>
+          <textarea id="note" data-i18n-ph="f.note.ph" placeholder="Bé có anh chị chụp cùng, cân nặng của bé, giờ bé hay ngủ, tầng mấy có thang máy không…"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BƯỚC 4 -->
+<section class="step" id="buoc-4">
+  <div class="wrap">
+    <div class="step-head"><div class="n">4</div><div><h2 data-i18n="s4.h">Gửi lựa chọn về Zalo cho Angel Studio</h2><p data-i18n="s4.p">Bấm nút bên dưới: nội dung được sao chép sẵn, Zalo của anh Hùng mở ra, bạn chỉ cần dán và gửi. Studio sẽ xác nhận lịch và giữ đạo cụ cho bé.</p></div></div>
+    <div class="summary">
+      <div class="card">
+        <div class="eyebrow" data-i18n="sum.h">Tóm tắt lựa chọn</div>
+        <div class="sum-list" id="sumList" style="margin-top:10px"></div>
+        <div class="total"><span class="eyebrow" data-i18n="sum.total">Tạm tính</span><span class="v" id="total">—</span></div>
+        <p class="small muted" style="margin-top:8px" data-i18n="sum.note">Chưa gồm phí di chuyển. Con số cuối cùng do studio xác nhận qua Zalo.</p>
+        <p class="missing" id="missing"></p>
+      </div>
+      <div>
+        <div class="eyebrow" style="margin-bottom:8px" data-i18n="msg.h">Tin nhắn sẽ gửi</div>
+        <textarea class="msgbox" id="msg" readonly aria-label="Nội dung tin nhắn"></textarea>
+        <div class="send">
+          <a class="btn btn-zalo" id="zaloBtn" href="https://zalo.me/0982291934" target="_blank" rel="noopener" data-i18n="btn.zalo">Sao chép & mở Zalo anh Hùng</a>
+          <a class="btn btn-fb" id="fbBtn" href="https://m.me/chupanhsosinhangel" target="_blank" rel="noopener" data-i18n="btn.fb">Hoặc gửi qua Messenger fanpage</a>
+          <button type="button" class="btn btn-ghost" id="copyBtn" data-i18n="btn.copy">Chỉ sao chép nội dung</button>
+          <p class="small muted" data-i18n="send.note">Zalo / hotline: <b style="user-select:all">0982 291 934</b> (anh Hùng) · <b style="user-select:all">0916 186 626</b> (chị Hương). Nếu Zalo không tự mở, bạn tìm số trên Zalo rồi dán tin nhắn.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHUẨN BỊ -->
+<section class="step" id="chuan-bi">
+  <div class="wrap">
+    <div class="step-head"><div class="n" style="background:var(--brand-2)">✦</div><div><h2 data-i18n="prep.h">Chuẩn bị cho buổi chụp</h2><p data-i18n="prep.p">Gia đình lo phần bé, Angel Studio lo phần còn lại.</p></div></div>
+    <div class="prep">
+      <div class="card">
+        <h3><span class="ico">🏠</span><span data-i18n="prep.fam.h">Gia đình chuẩn bị</span></h3>
+        <ul>
+          <li data-i18n="pf.1">Cho bé thức chơi 1–2 tiếng trước giờ chụp, sát giờ cho bú thật no để bé ngủ say, ekip tạo dáng rất dễ.</li>
+          <li data-i18n="pf.2">Bật ấm phòng chụp (điều hoà 27–28°C) vì bé sẽ được cởi đồ để quấn kén.</li>
+          <li data-i18n="pf.3">Dọn trống một góc phòng khoảng 2×2 m, gần ổ điện; ánh sáng cửa sổ là điểm cộng.</li>
+          <li data-i18n="pf.4">Mặc cho bé đồ rộng, dễ cởi; không cần tắm hay thay đồ đẹp trước giờ chụp.</li>
+          <li data-i18n="pf.5">Chụp cùng gia đình: cả nhà mặc tông trơn (trắng, be, nâu nhạt), tránh hoạ tiết lớn.</li>
+          <li data-i18n="pf.6">Để sẵn kỷ vật muốn đưa vào ảnh: áo ông bà đan, bảng tên bé, đồ kỷ niệm.</li>
+          <li data-i18n="pf.7">Chuẩn bị sữa, khăn xô, bỉm dự phòng; bé có thể bú giữa các concept.</li>
+          <li data-i18n="pf.8">Hôm trước giữ điện thoại để ekip nhắn Zalo xin định vị và xác nhận giờ.</li>
+        </ul>
+      </div>
+      <div class="card studio">
+        <h3><span class="ico">✦</span><span data-i18n="prep.st.h">Angel Studio chuẩn bị</span></h3>
+        <ul>
+          <li data-i18n="ps.1">Ekip anh Hùng, chị Hương (chủ studio, hơn 10 năm chụp sơ sinh) trực tiếp đến chụp.</li>
+          <li data-i18n="ps.2">Bộ đèn studio di động, phông nền, đệm tạo dáng và máy sưởi riêng cho bé.</li>
+          <li data-i18n="ps.3">Đạo cụ theo đúng concept đã chọn: khăn quấn, mũ, giỏ gỗ, giường mini, hoa, thú bông.</li>
+          <li data-i18n="ps.4">Trang phục, khăn quấn đã giặt sạch và tiệt trùng trước mỗi buổi chụp.</li>
+          <li data-i18n="ps.5">Tiếng ồn trắng và kỹ thuật dỗ bé ngủ trong lúc đổi concept.</li>
+          <li data-i18n="ps.6">Đến trước 15 phút để setup; mỗi concept khoảng 30 phút.</li>
+          <li data-i18n="ps.7">Gửi ảnh gốc ngay trong ngày; ảnh chỉnh sửa trong 7–10 ngày; album in thêm khoảng 1 tuần, ship tận nhà.</li>
+          <li data-i18n="ps.8">Tặng kèm gói tư vấn đặt tên cho bé khi đặt gói VIP.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="tl"><div class="when" data-i18n="tl.1.h">Khi xác nhận lịch</div><p data-i18n="tl.1.p">Studio chốt ngày giờ, concept và giữ đạo cụ cho bé.</p></div>
+      <div class="tl"><div class="when" data-i18n="tl.2.h">Hôm trước</div><p data-i18n="tl.2.p">Ekip nhắn Zalo xin định vị, nhắc lại việc chuẩn bị.</p></div>
+      <div class="tl"><div class="when" data-i18n="tl.3.h">Ngày chụp</div><p data-i18n="tl.3.p">Ekip đến trước 15′ setup. Gói 5 concept khoảng 2,5–3 tiếng.</p></div>
+      <div class="tl"><div class="when" data-i18n="tl.4.h">Sau chụp</div><p data-i18n="tl.4.p">Ảnh gốc trong ngày, ảnh sửa 7–10 ngày, album giao tận nhà.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="step" id="hoi-dap">
+  <div class="wrap">
+    <div class="step-head"><div class="n" style="background:var(--brand-2)">?</div><div><h2 data-i18n="faq.h">Bố mẹ hay hỏi</h2></div></div>
+    <details><summary data-i18n="faq.1.q">Bé mấy ngày tuổi thì chụp được?</summary><p data-i18n="faq.1.a">Sau khi rụng rốn, từ 7–8 ngày tuổi là chụp được; đẹp nhất là 7–15 ngày vì bé ngủ sâu, dễ quấn kén. Trong tháng vẫn chụp tốt. Bé quá 7 kg sẽ khó quấn kén, ekip sẽ chuyển sang các tư thế khác.</p></details>
+    <details><summary data-i18n="faq.2.q">Có phải mang bé ra studio không?</summary><p data-i18n="faq.2.a">Không. Toàn bộ buổi chụp diễn ra tại nhà, bé không phải ra ngoài sớm. Ekip mang đủ đèn, phông, đạo cụ đến.</p></details>
+    <details><summary data-i18n="faq.3.q">Chụp mất bao lâu?</summary><p data-i18n="faq.3.a">Mỗi concept khoảng 30 phút cả setup và tạo dáng. Gói 5 concept khoảng 2,5–3 tiếng, có nghỉ cho bé bú giữa chừng.</p></details>
+    <details><summary data-i18n="faq.4.q">Bao giờ có ảnh? Có trả file gốc không?</summary><p data-i18n="faq.4.a">Ảnh gốc gửi trong ngày chụp, toàn bộ file JPG khoảng 4 MB mỗi file, in 1–2 m vẫn nét. Ảnh chỉnh sửa trong 7–10 ngày, gia đình chọn theo mã số. Album và ảnh phóng in thêm khoảng 1 tuần.</p></details>
+    <details><summary data-i18n="faq.5.q">Chưa sinh có đặt trước được không?</summary><p data-i18n="faq.5.a">Được và nên đặt trước. Điền ngày dự sinh ở bước 3, studio giữ lịch dự kiến và điều chỉnh khi bé chào đời.</p></details>
+    <details><summary data-i18n="faq.6.q">Có makeup, có tắm bé không?</summary><p data-i18n="faq.6.a">Studio chỉ chụp ảnh, không tắm bé. Make up cho mẹ hoặc người nhà tính 400.000đ/mặt, chọn ở bước 3.</p></details>
+    <details><summary data-i18n="faq.7.q">Studio có phục vụ gia đình nước ngoài không?</summary><p data-i18n="faq.7.a">Có. Nhiều gia đình người nước ngoài sống tại Hà Nội đã chụp cùng Angel Studio. Bạn có thể nhắn tin bằng tiếng Anh, studio trả lời được.</p></details>
+  </div>
+</section>
+
+<section class="step" id="thu-vien">
+  <div class="wrap">
+    <div class="step-head"><div class="n" style="background:var(--brand-2)">✿</div><div><h2 data-i18n="gal.h">Xem thêm ảnh Angel Studio đã chụp</h2><p data-i18n="gal.p">200 khoảnh khắc khác từ các buổi chụp tại nhà. Bấm vào ảnh để xem lớn; thích kiểu nào, ghi vào ô ý tưởng riêng ở bước 2.</p></div></div>
+    <div class="toolbar">
+      <div class="seg" role="group" aria-label="Lọc ảnh">
+        <button type="button" data-gf="all" aria-pressed="true" data-i18n="gal.all">Tất cả</button>
+        <button type="button" data-gf="girl" aria-pressed="false" data-i18n="gal.girl">Bé gái</button>
+        <button type="button" data-gf="boy" aria-pressed="false" data-i18n="gal.boy">Bé trai</button>
+      </div>
+      <div class="counter" id="galCount"></div>
+    </div>
+    <div class="gallery" id="gallery"></div>
+    <div class="gal-more"><button type="button" class="btn btn-ghost" id="galMore" data-i18n="gal.more">Xem thêm ảnh</button></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="img/logo-white.png" alt="Angel Studio">
+    <div>
+      <p><b>Angel Studio</b> · <span data-i18n="foot.addr">37–39 Trần Quang Diệu, Ô Chợ Dừa, Đống Đa, Hà Nội</span></p>
+      <p>Hotline / Zalo / WhatsApp: 0982 291 934 · 0916 186 626</p>
+      <div class="links">
+        <a href="https://www.facebook.com/chupanhsosinhangel" target="_blank" rel="noopener" data-i18n="foot.fb">Fanpage Newborn</a>
+        <a href="https://www.tiktok.com/@chupanhsosinh" target="_blank" rel="noopener">TikTok</a>
+        <a href="https://www.youtube.com/@AngelStudioHN" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.angelstudio.vn" target="_blank" rel="noopener">angelstudio.vn</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="bar" id="bar"><div class="in">
+  <div class="txt"><b id="barTitle"></b><span id="barSub"></span></div>
+  <a class="btn btn-primary" href="#buoc-4" data-i18n="bar.btn">Gửi Zalo</a>
+</div></div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Xem ảnh">
+  <button type="button" class="x" id="lbClose" aria-label="Đóng">✕</button>
+  <button type="button" class="prev" id="lbPrev" aria-label="Ảnh trước">‹</button>
+  <img id="lbImg" alt="">
+  <button type="button" class="next" id="lbNext" aria-label="Ảnh sau">›</button>
+  <div class="cap" id="lbCap"></div>
+</div>
+
+<script>
+/* ---------- DỮ LIỆU ---------- */
+const PKGS=[
+ {id:'VIP 1',price:8000000,min:5,max:5,concepts:{vi:'5 concept',en:'5 concepts'},items:{vi:['Toàn bộ file gốc + 30 file chỉnh sửa','Album 25×25','Ảnh phóng 50×75','Ảnh bàn 20×30'],en:['All original files + 30 retouched','25×25 album','50×75 enlargement','20×30 desk print']}},
+ {id:'VIP 2',price:11000000,min:6,max:6,concepts:{vi:'6 concept',en:'6 concepts'},badge:{vi:'Được chọn nhiều',en:'Most popular'},items:{vi:['Toàn bộ file gốc + 30 file chỉnh sửa','Album 20×30','1 ảnh phóng 60×90','1 ảnh bàn 20×30'],en:['All original files + 30 retouched','20×30 album','1 enlargement 60×90','1 desk print 20×30']}},
+ {id:'VIP 3',price:15000000,min:7,max:8,concepts:{vi:'7–8 concept',en:'7–8 concepts'},items:{vi:['Toàn bộ file gốc + 30 file chỉnh sửa','Album 30×30','1 ảnh phóng 60×90','2 ảnh bàn 20×30'],en:['All original files + 30 retouched','30×30 album','1 enlargement 60×90','2 desk prints 20×30']},gift:{vi:'Tặng mini album 10×10 cm',en:'Free 10×10 cm mini album'}}
+];
+const CONCEPTS=[
+ {id:'trang-sao',name:{vi:'Trăng sao & mây',en:'Moon, stars & clouds'},desc:{vi:'Bé nằm trên trăng khuyết giữa mây bông và sao, tông kem dịu.',en:'Baby on a crescent moon among cotton clouds and stars, soft cream tones.'},girl:['002','006','021','038','058'],boy:['044','096','062','005','058']},
+ {id:'hoa',name:{vi:'Hoa & thiên nhiên',en:'Flowers & nature'},desc:{vi:'Vòng hoa, lá sen, hướng dương; màu tươi theo mùa hoa.',en:'Flower wreaths, lotus leaves, sunflowers; fresh colours by the season.'},girl:['004','013','014','047','020'],boy:['009','036','040','080','086']},
+ {id:'thu-bong',name:{vi:'Thú bông đáng yêu',en:'Cuddly animals'},desc:{vi:'Mũ tai gấu, tai thỏ, tai chuột cùng bạn thú len nhỏ.',en:'Bear, bunny and mouse bonnets with little knitted friends.'},girl:['005','026','046','049','095'],boy:['013','019','041','050','090']},
+ {id:'quan-ken',name:{vi:'Quấn kén tối giản',en:'Minimal swaddle'},desc:{vi:'Khăn quấn trơn trên phông đơn sắc, tôn nét mặt bé; kiểu basic lâu lỗi mốt.',en:'Plain wrap on a single-colour backdrop that frames the face; a timeless classic.'},girl:['011','028','042','055','070'],boy:['002','029','033','047','068']},
+ {id:'gio-go',name:{vi:'Giỏ gỗ & giường mini',en:'Wooden bucket & mini bed'},desc:{vi:'Bé ngủ trong thùng gỗ, giỏ mây hay chiếc giường tí hon.',en:'Baby asleep in a wooden bucket, wicker basket or tiny bed.'},girl:['016','019','059','062','087'],boy:['007','018','026','049','084']},
+ {id:'tet',season:{vi:'Tết',en:'Lunar New Year'},name:{vi:'Tết cổ truyền',en:'Tết – Lunar New Year'},desc:{vi:'Áo dài đỏ, hoa đào, dưa hấu, thỏi vàng, quất cảnh — hợp bé sinh dịp cuối năm, đầu xuân.',en:'Red áo dài, peach blossom, watermelon, gold ingots and kumquat; perfect for babies born around Tết.'},girl:['037','083','133','177','169'],boy:['021','010','167','159','246']},
+ {id:'noel',season:{vi:'Noel',en:'Christmas'},name:{vi:'Giáng sinh',en:'Christmas'},desc:{vi:'Mũ ông già Noel, cây thông, đèn lấp lánh và hộp quà — bé sinh tháng 11, 12.',en:'Santa hat, Christmas tree, twinkling lights and gift boxes for November and December babies.'},girl:['300','185','293','063','294'],boy:['034','091','160','233','251']},
+ {id:'tot-nghiep',season:{vi:'Graduation',en:'Graduation'},name:{vi:'Tốt nghiệp',en:'Little graduate'},desc:{vi:'Mũ cử nhân, chồng sách và bằng tốt nghiệp — gửi gắm ước mơ học hành cho con.',en:'Graduation cap, a stack of books and a diploma: a wish for a bright future.'},girl:['135'],boy:['015','126','152','286','129']},
+ {id:'nghe-nghiep',name:{vi:'Nghề nghiệp & phong cách',en:'Careers & style'},desc:{vi:'Doanh nhân nhí, phi công, tay đua, golfer… theo nghề bố mẹ hoặc ước mơ cho bé.',en:'Little CEO, pilot, racer, golfer… inspired by the parents’ jobs or a dream for the baby.'},girl:['003','036','287','158','085'],boy:['011','081','143','265','241']},
+ {id:'gia-dinh',name:{vi:'Cùng anh chị & bố mẹ',en:'With siblings & parents'},desc:{vi:'Khoảnh khắc cả nhà ôm bé. Người nhà chụp cùng không tính phí.',en:'The whole family holding the baby. Family members join at no extra cost.'},girl:['009','024','041','057','080'],boy:['001','028','037']}
+];
+
+const GALLERY={
+ girl:['008','012','015','017','018','022','025','027','030','034','044','045','048','052','053','054','060','061','064','066','069','071','076','078','091','099','111','121','124','127','139','146','155','161','166','184','186','190','194','210','216','222','229','251','262','272','276','280','285','296','010','023','029','031','033','035','039','043','050','051','065','067','072','073','074','075','077','079','081','082','084','086','088','090','092','098','103','104','105','106','113','116','117','128','134','138','141','147','149','153','156','160','164','172','175','183','199','203','213','215'],
+ boy:['003','006','008','012','017','020','027','032','035','039','042','045','053','057','059','063','065','066','069','072','074','077','079','082','092','099','107','109','123','142','149','157','162','170','177','182','189','198','208','210','214','220','225','232','237','243','263','272','277','299','004','016','022','024','030','031','038','046','048','051','054','055','060','061','064','067','070','071','073','075','076','083','085','087','088','089','094','095','101','104','112','116','122','130','131','133','144','155','164','180','186','195','201','215','230','231','244','250','252','275']
+};
+
+/* ---------- SONG NGỮ ---------- */
+const EN={
+ 'gal.link':'See 200 more photos by Angel Studio →','gal.h':'More photos by Angel Studio','gal.p':'200 more moments from our in-home sessions. Tap to enlarge; if you love a look, mention it in the “own idea” box in step 2.',
+ 'gal.all':'All','gal.girl':'Girls','gal.boy':'Boys','gal.more':'Show more photos',
+ addr:'37–39 Tran Quang Dieu, O Cho Dua, Hanoi',book:'Book now',
+ 'hero.eyebrow':'In-home newborn photography · Hanoi','hero.h1':'Keep the days when your baby is <b>at their smallest</b>, right at home',
+ 'hero.lead':'Hung and Huong, the studio owners, bring the lights, backdrops, props and sterilised outfits to your home. Baby sleeps through the session; you only choose the concepts and the date.',
+ 'fact.1':'days old is when newborns photograph best','fact.2':'per concept; baby sleeps throughout','fact.3':'years, shot personally by the studio owners',
+ 'hero.cta1':'Choose a package','hero.cta2':'What to prepare','hero.tag':'Free baby-naming consultation with every VIP package',
+ 'nav.1':'Package','nav.2':'Concepts','nav.3':'Date & contact','nav.4':'Send to the studio',
+ 's1.h':'Choose a VIP newborn package','s1.p':'Every package includes all original files, 30 retouched images, and family members join the shoot for free.',
+ 'note.1':'Travel fee 15,000 VND/km','note.2':'Weekend surcharge 500,000 VND','note.3':'Twins +40%','note.4':'Make-up 400,000 VND/person','note.5':'Family members join for free',
+ 's2.h':'Tick the concepts you love','s2.p':'Tap a photo to enlarge. Pick as many concepts as your package allows, or describe your own idea and we prepare the props a day ahead.',
+ 'g.girl':'Girl','g.boy':'Boy','g.any':'Not known yet',
+ 'custom.l':'Your own idea (optional)','custom.ph':'e.g. grandma’s knitted sweater, a name board, dad’s work tools, blue as the main colour…','custom.p':'We can build a concept around the baby’s name, the parents’ professions or a family keepsake.',
+ 's3.h':'Pick a date & leave your contact','s3.p':'No surcharge on weekdays. We schedule around the time your baby usually sleeps most deeply.',
+ 'f.dob':'Baby’s date of birth (or due date)','f.date':'Preferred shoot date','f.slot':'Time slot','slot.am':'Morning 9:00','slot.pm':'Afternoon 14:00','slot.other':'Other time',
+ 'f.name':'Parent’s name','f.name.ph':'e.g. Anna','f.phone':'Phone / Zalo / WhatsApp','f.addr':'Home address (shoot location)','f.addr.ph':'House number, street, district',
+ 'f.addr.hint':'Travel is 15,000 VND/km from 37 Tran Quang Dieu, Dong Da. We confirm the exact amount with your booking.',
+ 'f.park':'Is there car parking nearby?','park.yes':'Yes','park.no':'No','park.unknown':'Not sure','f.park.hint':'We bring a lot of equipment, so it helps to know in advance.',
+ 'f.extra':'Add-ons','f.twins':'Twins <span class="muted small">(+40%)</span>','f.mu':'Make-up for mum / family <span class="muted small">(400,000 VND/person)</span>',
+ 'f.note':'Notes','f.note.ph':'Siblings joining, baby’s weight, usual nap times, which floor and whether there is a lift…',
+ 's4.h':'Send your choices to Angel Studio','s4.p':'Tap the button: the message is copied and Zalo opens. Paste it and send. We confirm the slot and reserve the props for your baby. WhatsApp on the same number also works.',
+ 'sum.h':'Your summary','sum.total':'Estimate','sum.note':'Excludes travel fee. The final amount is confirmed by the studio on Zalo.',
+ 'msg.h':'Message to send','btn.zalo':'Copy & open Zalo (Hung)','btn.fb':'Or send via Facebook Messenger','btn.copy':'Just copy the text',
+ 'send.note':'Zalo / WhatsApp / hotline: <b style="user-select:all">+84 982 291 934</b> (Hung) · <b style="user-select:all">+84 916 186 626</b> (Huong). If Zalo does not open, search the number in Zalo or WhatsApp and paste the message.',
+ 'prep.h':'Preparing for the session','prep.p':'You take care of the baby; Angel Studio takes care of the rest.',
+ 'prep.fam.h':'What the family prepares',
+ 'pf.1':'Keep baby awake for 1–2 hours before the shoot, then feed fully right before we start so they sleep deeply and pose easily.',
+ 'pf.2':'Warm the room to 27–28°C: baby will be undressed for the wraps.',
+ 'pf.3':'Clear a corner of about 2×2 m near a power socket; window light is a bonus.',
+ 'pf.4':'Dress baby in loose, easy-to-remove clothes; no need to bathe or dress up beforehand.',
+ 'pf.5':'For family shots, wear plain tones (white, beige, light brown) and avoid large patterns.',
+ 'pf.6':'Set out any keepsakes you want in the photos: a knitted sweater from grandma, a name board, family mementos.',
+ 'pf.7':'Have milk, muslin cloths and spare nappies ready; baby can feed between concepts.',
+ 'pf.8':'Keep your phone handy the day before: we message on Zalo for your location pin and to confirm the time.',
+ 'prep.st.h':'What Angel Studio brings',
+ 'ps.1':'Hung and Huong, the studio owners with 10+ years of newborn experience, shoot in person.',
+ 'ps.2':'Portable studio lights, backdrops, posing beanbag and a dedicated heater for the baby.',
+ 'ps.3':'Props for the concepts you chose: wraps, bonnets, wooden buckets, mini beds, flowers, plush toys.',
+ 'ps.4':'Outfits and wraps washed and sterilised before every session.',
+ 'ps.5':'White noise and soothing techniques to settle baby between concepts.',
+ 'ps.6':'We arrive 15 minutes early to set up; each concept takes about 30 minutes.',
+ 'ps.7':'Original files the same day; retouched images in 7–10 days; printed album about a week later, delivered to your door.',
+ 'ps.8':'A free baby-naming consultation with every VIP package.',
+ 'tl.1.h':'On confirmation','tl.1.p':'We lock the date, time and concepts and reserve the props.',
+ 'tl.2.h':'The day before','tl.2.p':'We message on Zalo for your location and a reminder of what to prepare.',
+ 'tl.3.h':'Shoot day','tl.3.p':'We arrive 15 min early. A 5-concept package takes about 2.5–3 hours.',
+ 'tl.4.h':'Afterwards','tl.4.p':'Originals the same day, retouched in 7–10 days, album delivered to your home.',
+ 'faq.h':'Parents often ask',
+ 'faq.1.q':'How old should the baby be?','faq.1.a':'Once the umbilical stump has fallen off, from 7–8 days. The sweet spot is 7–15 days, when babies sleep deeply and curl up easily. Within the first month is still great. Over 7 kg, swaddled poses get difficult and we switch to other poses.',
+ 'faq.2.q':'Do we need to come to the studio?','faq.2.a':'No. The whole session happens at your home, so your newborn never has to go out. We bring all lights, backdrops and props.',
+ 'faq.3.q':'How long does it take?','faq.3.a':'About 30 minutes per concept including set-up and posing. A 5-concept package takes about 2.5–3 hours, with feeding breaks.',
+ 'faq.4.q':'When do we get the photos? Do we get the originals?','faq.4.a':'All original JPGs (about 4 MB each, sharp enough for 1–2 m prints) are sent the same day. Retouched images follow in 7–10 days; you select them by number. Albums and enlargements take about another week.',
+ 'faq.5.q':'Can we book before the birth?','faq.5.a':'Yes, and we recommend it. Enter your due date in step 3; we hold a provisional slot and adjust once baby arrives.',
+ 'faq.6.q':'Is make-up or a baby bath included?','faq.6.a':'We only photograph, no baby bath. Make-up for mum or family is 400,000 VND per person; choose it in step 3.',
+ 'faq.7.q':'Do you work with expat families?','faq.7.a':'Yes. Many international families living in Hanoi have photographed with Angel Studio. You can message us in English.',
+ 'foot.addr':'37–39 Tran Quang Dieu, O Cho Dua, Dong Da, Hanoi','foot.fb':'Newborn fanpage','bar.btn':'Send'
+};
+const S={
+ vi:{dow:['Chủ nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'],pick:'Chọn',picked:'✓ Đã chọn',more:n=>`+${n} ảnh`,girl:'Bé gái',boy:'Bé trai',
+  gift:'Tặng gói tư vấn đặt tên cho bé',cntNoPkg:'Chọn gói trước để biết số concept',cntSome:n=>`Đã chọn ${n} concept · chọn gói ở bước 1`,cnt:(a,b)=>`Đã chọn ${a}/${b} concept`,
+  limit:(p,l)=>`Gói ${p} chọn tối đa ${l} concept. Bỏ bớt một concept hoặc nâng gói.`,pickPkgFirst:'Chọn gói ở bước 1 trước nhé',
+  dateEmpty:'Chọn ngày để xem thứ và phụ phí cuối tuần.',weekend:'cuối tuần, phụ phí 500.000đ',weekday:'ngày thường, không phụ phí',
+  ageBefore:n=>`Ngày chụp trước ngày dự sinh ${n} ngày. Studio sẽ giữ lịch dự kiến và điều chỉnh khi bé chào đời.`,ageEarly:n=>`Hôm chụp bé ${n} ngày tuổi. Nên chụp từ 7–8 ngày, sau khi rụng rốn.`,
+  ageBest:n=>`Hôm chụp bé ${n} ngày tuổi, đúng giai đoạn đẹp nhất (7–15 ngày).`,ageOk:n=>`Hôm chụp bé ${n} ngày tuổi, trong tháng vẫn chụp rất đẹp.`,ageLate:n=>`Hôm chụp bé ${n} ngày tuổi. Bé lớn hơn tháng vẫn chụp được, quá 7 kg sẽ đổi sang tư thế khác thay quấn kén.`,
+  bestRange:(a,b)=>`Khoảng đẹp nhất để chụp: ${a} → ${b}.`,otherTime:'(giờ khác, sẽ trao đổi)',
+  rPkg:'Gói',rCon:'Concept',rDate:'Ngày chụp',rWk:'Phụ phí cuối tuần',rTw:'Sinh đôi (+40%)',rMu:n=>`Make up ${n} mặt`,rTravel:'Di chuyển',rTravelV:'15.000đ/km, báo sau',none:'Chưa chọn',
+  missing:l=>`Còn thiếu: ${l.join(', ')}. Bạn vẫn có thể gửi, studio sẽ hỏi thêm.`,mPkg:'gói',mCon:n=>`đủ ${n} concept`,mDate:'ngày chụp',mPhone:'số điện thoại',
+  barNoPkg:n=>`${n} concept đã chọn`,barPkg:(p,a,b)=>`${p} · ${a}/${b} concept`,barSub:'Chọn gói ở bước 1',barEst:'Tạm tính',
+  galCount:(a,b)=>`Đang xem ${a}/${b} ảnh`,galName:'Thư viện ảnh',
+  copied:'Đã sao chép nội dung',copyFail:'Không sao chép được, bạn bôi đen ô tin nhắn để copy',zaloOk:'Đã sao chép. Dán vào Zalo anh Hùng và gửi nhé!',zaloFail:'Mở Zalo rồi bôi đen ô tin nhắn để copy',fbOk:'Đã sao chép. Dán vào Messenger và gửi nhé!',fbFail:'Mở Messenger rồi bôi đen ô tin nhắn để copy',
+  park:{yes:'Có',no:'Không',unknown:'Chưa rõ'},gender:{girl:'bé gái',boy:'bé trai',any:'chưa biết giới tính'},
+  msg:{title:'ĐẶT LỊCH CHỤP NEWBORN – Angel Studio',baby:'👶 Bé',born:'sinh/dự sinh',ageOn:n=>`${n} ngày tuổi hôm chụp`,notBorn:'chưa sinh vào ngày chụp',pkg:'📦 Gói',notChosen:'chưa chọn',concepts:'🎨 Concept đã chọn',idea:'💡 Ý tưởng riêng',date:'📅 Ngày chụp mong muốn',weekend:'(cuối tuần)',contact:'👩 Liên hệ',addr:'🏠 Địa chỉ',parking:'Chỗ đỗ ô tô',extra:'➕ Thêm',twins:'sinh đôi',mu:n=>`make up ${n} mặt`,note:'📝 Ghi chú',est:'💰 Tạm tính',estNote:'(chưa gồm phí di chuyển 15.000đ/km)',bye:'Nhờ studio xác nhận lịch giúp em ạ. Cảm ơn Angel Studio!'}},
+ en:{dow:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],pick:'Select',picked:'✓ Selected',more:n=>`+${n} photos`,girl:'Girl',boy:'Boy',
+  gift:'Free baby-naming consultation',cntNoPkg:'Choose a package first to see how many concepts you get',cntSome:n=>`${n} selected · choose a package in step 1`,cnt:(a,b)=>`${a}/${b} concepts selected`,
+  limit:(p,l)=>`${p} allows up to ${l} concepts. Deselect one or upgrade the package.`,pickPkgFirst:'Please choose a package in step 1 first',
+  dateEmpty:'Pick a date to see the weekday and any weekend surcharge.',weekend:'weekend, +500,000 VND',weekday:'weekday, no surcharge',
+  ageBefore:n=>`The shoot date is ${n} days before the due date. We hold a provisional slot and adjust once baby arrives.`,ageEarly:n=>`Baby will be ${n} days old. We recommend shooting from 7–8 days, once the umbilical stump has fallen off.`,
+  ageBest:n=>`Baby will be ${n} days old: the ideal window (7–15 days).`,ageOk:n=>`Baby will be ${n} days old; within the first month still photographs beautifully.`,ageLate:n=>`Baby will be ${n} days old. Older babies are welcome; over 7 kg we use other poses instead of swaddling.`,
+  bestRange:(a,b)=>`Ideal window for the shoot: ${a} → ${b}.`,otherTime:'(other time, to be agreed)',
+  rPkg:'Package',rCon:'Concepts',rDate:'Shoot date',rWk:'Weekend surcharge',rTw:'Twins (+40%)',rMu:n=>`Make-up × ${n}`,rTravel:'Travel',rTravelV:'15,000 VND/km, confirmed later',none:'Not chosen',
+  missing:l=>`Still missing: ${l.join(', ')}. You can send anyway and we will ask.`,mPkg:'package',mCon:n=>`${n} concepts`,mDate:'shoot date',mPhone:'phone number',
+  barNoPkg:n=>`${n} concepts selected`,barPkg:(p,a,b)=>`${p} · ${a}/${b} concepts`,barSub:'Choose a package in step 1',barEst:'Estimate',
+  galCount:(a,b)=>`Showing ${a}/${b} photos`,galName:'Gallery',
+  copied:'Message copied',copyFail:'Could not copy; select the message text and copy it manually',zaloOk:'Copied. Paste it into Zalo and send!',zaloFail:'Open Zalo, then select the message text and copy it',fbOk:'Copied. Paste it into Messenger and send!',fbFail:'Open Messenger, then select the message text and copy it',
+  park:{yes:'Yes',no:'No',unknown:'Not sure'},gender:{girl:'girl',boy:'boy',any:'gender not known yet'},
+  msg:{title:'NEWBORN SESSION BOOKING – Angel Studio',baby:'👶 Baby',born:'born/due',ageOn:n=>`${n} days old on the shoot date`,notBorn:'not yet born on the shoot date',pkg:'📦 Package',notChosen:'not chosen',concepts:'🎨 Selected concepts',idea:'💡 Own idea',date:'📅 Preferred date',weekend:'(weekend)',contact:'👩 Contact',addr:'🏠 Address',parking:'Car parking',extra:'➕ Add-ons',twins:'twins',mu:n=>`make-up × ${n}`,note:'📝 Notes',est:'💰 Estimate',estNote:'(excluding travel 15,000 VND/km)',bye:'Please confirm the booking. Thank you, Angel Studio!'}}
+};
+
+/* ---------- TRẠNG THÁI ---------- */
+const $=s=>document.querySelector(s);
+const state={lang:'vi',pkg:null,gender:'girl',picked:[],slot:'09:00',otherTime:'',parking:'',twins:false,makeup:0};
+try{const s=JSON.parse(localStorage.getItem('angel-booking')||'null');if(s)Object.assign(state,s)}catch(e){}
+if(state.parking==='Có')state.parking='yes';if(state.parking==='Không')state.parking='no';if(state.parking==='Chưa rõ')state.parking='unknown';
+state.picked=state.picked.filter(id=>CONCEPTS.some(c=>c.id===id));
+if(!navigator.language.startsWith('vi')&&!localStorage.getItem('angel-booking'))state.lang='en';
+const persist=()=>{try{localStorage.setItem('angel-booking',JSON.stringify(state))}catch(e){}};
+const L=()=>S[state.lang];
+const fmt=n=>state.lang==='vi'?n.toLocaleString('vi-VN')+'đ':n.toLocaleString('en-US')+' VND';
+
+/* lưu bản tiếng Việt gốc rồi áp ngôn ngữ */
+const VI={};document.querySelectorAll('[data-i18n]').forEach(el=>VI[el.dataset.i18n]=el.innerHTML);
+const VIPH={};document.querySelectorAll('[data-i18n-ph]').forEach(el=>VIPH[el.dataset.i18nPh]=el.placeholder);
+function applyLang(){
+ document.documentElement.lang=state.lang;
+ document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;el.innerHTML=state.lang==='en'&&EN[k]!==undefined?EN[k]:VI[k]});
+ document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const k=el.dataset.i18nPh;el.placeholder=state.lang==='en'&&EN[k]!==undefined?EN[k]:VIPH[k]});
+ document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===state.lang));
+ document.title=state.lang==='en'?'Newborn Booking – Angel Studio':'Đặt lịch Newborn Angel Studio';
+}
+document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>{state.lang=b.dataset.lang;applyLang();render()}));
+
+/* ---------- GÓI ---------- */
+const pkgEl=$('#pkgs');
+function renderPkgs(){const l=state.lang;
+ pkgEl.innerHTML=PKGS.map(p=>`<button type="button" class="pkg" data-id="${p.id}" aria-pressed="${p.id===state.pkg}">
+ ${p.badge?`<span class="badge">${p.badge[l]}</span>`:''}<span class="check">✓</span>
+ <span class="name">${p.id}</span><span class="price">${fmt(p.price)}<br><small>${p.concepts[l]}</small></span>
+ <ul>${p.items[l].map(i=>`<li>${i}</li>`).join('')}</ul>
+ ${p.gift?`<span class="gift">${p.gift[l]}</span>`:''}
+ <span class="gift">${L().gift}</span></button>`).join('');}
+pkgEl.addEventListener('click',e=>{const b=e.target.closest('.pkg');if(!b)return;state.pkg=b.dataset.id;const lim=curPkg().max;if(state.picked.length>lim)state.picked=state.picked.slice(0,lim);render();});
+const curPkg=()=>PKGS.find(p=>p.id===state.pkg);
+
+/* ---------- CONCEPT ---------- */
+const conEl=$('#concepts');
+function imgsFor(c){const g=L().girl,b=L().boy;
+ const G=c.girl.map(n=>['img/g'+n+'.jpg',g]),B=c.boy.map(n=>['img/b'+n+'.jpg',b]);
+ const fill=(main,other)=>main.length>=3?main:main.concat(other.slice(0,5-main.length));
+ if(state.gender==='girl')return fill(G,B);
+ if(state.gender==='boy')return fill(B,G);
+ const out=[];for(let i=0;i<5;i++){if(c.girl[i])out.push(['img/g'+c.girl[i]+'.jpg',g]);if(c.boy[i])out.push(['img/b'+c.boy[i]+'.jpg',b])}return out.slice(0,6)}
+function renderConcepts(){const l=state.lang;
+ conEl.innerHTML=CONCEPTS.map(c=>{const imgs=imgsFor(c);const on=state.picked.includes(c.id);
+  const tiles=imgs.slice(0,3).map(([src,gl],i)=>`<button type="button" data-c="${c.id}" data-i="${i}" aria-label="${c.name[l]}"><img src="${src}" alt="${c.name[l]} – ${gl}" loading="lazy">${i===2&&imgs.length>3?`<span class="more">${L().more(imgs.length-3)}</span>`:''}</button>`).join('');
+  return `<article class="concept ${on?'on':''}" data-id="${c.id}"><div class="gal">${tiles}</div>
+   <div class="body"><div>${c.season?`<span class="season">${c.season[l]}</span>`:''}<h3>${c.name[l]}</h3><p class="desc">${c.desc[l]}</p></div>
+   <button type="button" class="pick" data-pick="${c.id}" aria-pressed="${on}">${on?L().picked:L().pick}</button></div></article>`}).join('');
+}
+conEl.addEventListener('click',e=>{
+ const pk=e.target.closest('[data-pick]');
+ if(pk){const id=pk.dataset.pick;const i=state.picked.indexOf(id);
+  if(i>=0)state.picked.splice(i,1);
+  else{const lim=curPkg()?curPkg().max:8;if(state.picked.length>=lim){toast(state.pkg?L().limit(state.pkg,lim):L().pickPkgFirst);return}state.picked.push(id)}
+  render();return}
+ const t=e.target.closest('[data-c]');if(t)openLb(t.dataset.c,+t.dataset.i);
+});
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{state.gender=b.dataset.g;document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));render()}));
+
+/* ---------- LIGHTBOX ---------- */
+let lbList=[],lbIdx=0,lbName='';
+function openLb(cid,i){const c=CONCEPTS.find(x=>x.id===cid);openLbList(imgsFor(c),i,c.name[state.lang])}
+function openLbList(list,i,name){lbList=list;lbIdx=i;lbName=name;showLb();$('#lb').classList.add('show');document.body.style.overflow='hidden'}
+function showLb(){const [src,g]=lbList[lbIdx];$('#lbImg').src=src;$('#lbImg').alt=lbName;$('#lbCap').textContent=`${lbName} · ${g} · ${lbIdx+1}/${lbList.length}`}
+function closeLb(){$('#lb').classList.remove('show');document.body.style.overflow=''}
+$('#lbClose').onclick=closeLb;$('#lb').addEventListener('click',e=>{if(e.target.id==='lb')closeLb()});
+$('#lbPrev').onclick=()=>{lbIdx=(lbIdx-1+lbList.length)%lbList.length;showLb()};
+$('#lbNext').onclick=()=>{lbIdx=(lbIdx+1)%lbList.length;showLb()};
+document.addEventListener('keydown',e=>{if(!$('#lb').classList.contains('show'))return;if(e.key==='Escape')closeLb();if(e.key==='ArrowLeft')$('#lbPrev').click();if(e.key==='ArrowRight')$('#lbNext').click()});
+
+/* ---------- THƯ VIỆN ---------- */
+let galFilter='all',galShown=24;
+function galList(){const g=GALLERY.girl.map(n=>['img/g'+n+'.jpg','girl']),b=GALLERY.boy.map(n=>['img/b'+n+'.jpg','boy']);
+ if(galFilter==='girl')return g;if(galFilter==='boy')return b;
+ const out=[];for(let i=0;i<Math.max(g.length,b.length);i++){if(g[i])out.push(g[i]);if(b[i])out.push(b[i])}return out}
+function renderGallery(){const list=galList(),show=list.slice(0,galShown),T=L();
+ $('#gallery').innerHTML=show.map(([src,g],i)=>`<button type="button" data-gi="${i}" aria-label="${T.galName} ${i+1}"><img src="${src}" alt="${g==='girl'?T.girl:T.boy}" loading="lazy"><span class="gtag">${g==='girl'?T.girl:T.boy}</span></button>`).join('');
+ $('#galCount').textContent=T.galCount(show.length,list.length);
+ $('#galMore').hidden=show.length>=list.length;}
+$('#gallery').addEventListener('click',e=>{const b=e.target.closest('[data-gi]');if(!b)return;const T=L();const list=galList().slice(0,galShown).map(([src,g])=>[src,g==='girl'?T.girl:T.boy]);openLbList(list,+b.dataset.gi,T.galName)});
+$('#galMore').onclick=()=>{galShown+=24;renderGallery()};
+document.querySelectorAll('[data-gf]').forEach(b=>b.addEventListener('click',()=>{galFilter=b.dataset.gf;galShown=24;document.querySelectorAll('[data-gf]').forEach(x=>x.setAttribute('aria-pressed',x===b));renderGallery()}));
+
+/* ---------- FORM ---------- */
+const today=new Date();today.setHours(0,0,0,0);
+const iso=d=>d.toISOString().slice(0,10);
+$('#date').min=iso(today);
+['dob','date','name','phone','addr','note','custom'].forEach(id=>{const el=document.getElementById(id);if(state[id])el.value=state[id];el.addEventListener('input',()=>{state[id]=el.value;render()})});
+$('#slots').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;state.slot=b.dataset.slot;render()});
+$('#otherTime').addEventListener('input',e=>{state.otherTime=e.target.value;render()});
+$('#parking').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;state.parking=state.parking===b.dataset.p?'':b.dataset.p;render()});
+$('#twins').addEventListener('change',e=>{state.twins=e.target.checked;render()});
+$('#muMinus').onclick=()=>{state.makeup=Math.max(0,state.makeup-1);render()};
+$('#muPlus').onclick=()=>{state.makeup=Math.min(6,state.makeup+1);render()};
+
+function parseD(s){if(!s)return null;const d=new Date(s+'T00:00:00');return isNaN(d)?null:d}
+const pad=n=>String(n).padStart(2,'0');
+function dmy(d){return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`}
+function viDate(d){return `${L().dow[d.getDay()]} ${dmy(d)}`}
+function timeStr(){return state.slot==='other'?(state.otherTime||L().otherTime):state.slot}
+
+function calc(){
+ const p=curPkg();const d=parseD(state.date);const dob=parseD(state.dob);
+ const weekend=d&&(d.getDay()===0||d.getDay()===6);
+ const base=p?p.price:0;const wk=weekend?500000:0;const tw=state.twins?Math.round(base*0.4):0;const mu=state.makeup*400000;
+ let age=null;if(d&&dob)age=Math.round((d-dob)/86400000);
+ return {p,d,dob,weekend,base,wk,tw,mu,total:base+wk+tw+mu,age};
+}
+function buildMsg(c){const M=L().msg,l=state.lang;
+ const names=state.picked.map(id=>CONCEPTS.find(x=>x.id===id).name[l]);
+ const out=[M.title,''];
+ out.push(`${M.baby}: ${L().gender[state.gender]}${state.dob?`, ${M.born} ${dmy(c.dob)}`:''}${c.age!==null?` (${c.age>=0?M.ageOn(c.age):M.notBorn})`:''}`);
+ out.push(`${M.pkg}: ${c.p?`${c.p.id} – ${fmt(c.p.price)} (${c.p.concepts[l]})`:M.notChosen}`);
+ out.push(`${M.concepts}${c.p?` (${names.length}/${c.p.max})`:''}:`);
+ names.forEach((n,i)=>out.push(`   ${i+1}. ${n}`));
+ if(!names.length)out.push(`   (${M.notChosen})`);
+ if(state.custom)out.push(`${M.idea}: ${state.custom}`);
+ out.push(`${M.date}: ${c.d?viDate(c.d):M.notChosen} · ${timeStr()}${c.weekend?' '+M.weekend:''}`);
+ out.push(`${M.contact}: ${state.name||'…'} – ${state.phone||'…'}`);
+ out.push(`${M.addr}: ${state.addr||'…'}${state.parking?` · ${M.parking}: ${L().park[state.parking]}`:''}`);
+ const extra=[];if(state.twins)extra.push(M.twins);if(state.makeup)extra.push(M.mu(state.makeup));
+ if(extra.length)out.push(`${M.extra}: ${extra.join(', ')}`);
+ if(state.note)out.push(`${M.note}: ${state.note}`);
+ if(c.p)out.push(`${M.est}: ${fmt(c.total)} ${M.estNote}`);
+ out.push('',M.bye);
+ return out.join('\n');
+}
+
+function render(){
+ persist();
+ const c=calc(),T=L();
+ renderPkgs();renderConcepts();renderGallery();
+ const cnt=$('#counter');
+ if(c.p){const full=state.picked.length>=c.p.min;cnt.textContent=T.cnt(state.picked.length,c.p.max)+(full?' ✓':'');cnt.classList.toggle('full',full)}
+ else{cnt.textContent=state.picked.length?T.cntSome(state.picked.length):T.cntNoPkg;cnt.classList.remove('full')}
+ document.querySelectorAll('#slots .chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.slot===state.slot));
+ $('#otherTime').style.display=state.slot==='other'?'inline-block':'none';
+ document.querySelectorAll('#parking .chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.p===state.parking));
+ $('#twins').checked=state.twins;$('#muOut').value=state.makeup;
+ const dh=$('#dateHint');
+ if(c.d)dh.innerHTML=`<b>${viDate(c.d)}</b> · ${c.weekend?T.weekend:T.weekday}`;else dh.textContent=T.dateEmpty;
+ const an=$('#ageNote');an.className='age-note';
+ if(c.age!==null){an.classList.add('show');
+  if(c.age<0)an.textContent=T.ageBefore(-c.age);
+  else if(c.age<7){an.classList.add('warn');an.textContent=T.ageEarly(c.age)}
+  else if(c.age<=15){an.classList.add('ok');an.textContent=T.ageBest(c.age)}
+  else if(c.age<=30){an.classList.add('ok');an.textContent=T.ageOk(c.age)}
+  else{an.classList.add('warn');an.textContent=T.ageLate(c.age)}}
+ else if(c.dob&&!c.d){an.classList.add('show');const b1=new Date(c.dob);b1.setDate(b1.getDate()+7);const b2=new Date(c.dob);b2.setDate(b2.getDate()+15);an.textContent=T.bestRange(viDate(b1),viDate(b2))}
+ const rows=[];
+ rows.push([T.rPkg,c.p?`${c.p.id} · ${fmt(c.p.price)}`:T.none]);
+ rows.push([T.rCon,state.picked.length?state.picked.map(id=>CONCEPTS.find(x=>x.id===id).name[state.lang]).join(', '):T.none]);
+ rows.push([T.rDate,c.d?`${viDate(c.d)} · ${timeStr()}`:T.none]);
+ if(c.wk)rows.push([T.rWk,fmt(c.wk)]);
+ if(c.tw)rows.push([T.rTw,fmt(c.tw)]);
+ if(c.mu)rows.push([T.rMu(state.makeup),fmt(c.mu)]);
+ rows.push([T.rTravel,T.rTravelV]);
+ $('#sumList').innerHTML=rows.map(([k,v])=>`<div class="sum-row"><span class="k">${k}</span><span class="v">${v}</span></div>`).join('');
+ $('#total').textContent=c.p?fmt(c.total):'—';
+ const miss=[];if(!c.p)miss.push(T.mPkg);if(c.p&&state.picked.length<c.p.min)miss.push(T.mCon(c.p.min));if(!c.d)miss.push(T.mDate);if(!state.phone)miss.push(T.mPhone);
+ const m=$('#missing');m.classList.toggle('show',miss.length>0);m.textContent=miss.length?T.missing(miss):'';
+ $('#msg').value=buildMsg(c);
+ $('#nav1').classList.toggle('done',!!c.p);$('#nav2').classList.toggle('done',!!c.p&&state.picked.length>=c.p.min);$('#nav3').classList.toggle('done',!!c.d&&!!state.phone);
+ $('#bar').classList.toggle('show',!!c.p||state.picked.length>0);
+ $('#barTitle').textContent=c.p?T.barPkg(c.p.id,state.picked.length,c.p.max):T.barNoPkg(state.picked.length);
+ $('#barSub').textContent=c.p?`${T.barEst} ${fmt(c.total)}${c.d?' · '+viDate(c.d):''}`:T.barSub;
+}
+
+/* ---------- SAO CHÉP & GỬI ---------- */
+let toastT;function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),3200)}
+async function copyMsg(){const txt=$('#msg').value;try{await navigator.clipboard.writeText(txt);return true}catch(e){const ta=$('#msg');ta.focus();ta.select();try{document.execCommand('copy');return true}catch(e2){return false}}}
+$('#copyBtn').onclick=async()=>{toast((await copyMsg())?L().copied:L().copyFail)};
+$('#zaloBtn').addEventListener('click',async()=>{toast((await copyMsg())?L().zaloOk:L().zaloFail)});
+$('#fbBtn').addEventListener('click',async()=>{toast((await copyMsg())?L().fbOk:L().fbFail)});
+
+applyLang();render();
+</script>
+
+</html>
