@@ -631,7 +631,6 @@ const state={lang:'vi',pkg:null,gender:'girl',picked:[],slot:'09:00',otherTime:'
 try{const s=JSON.parse(localStorage.getItem('angel-booking')||'null');if(s)Object.assign(state,s)}catch(e){}
 if(state.parking==='Có')state.parking='yes';if(state.parking==='Không')state.parking='no';if(state.parking==='Chưa rõ')state.parking='unknown';
 state.picked=state.picked.filter(id=>CONCEPTS.some(c=>c.id===id));
-if(!navigator.language.startsWith('vi')&&!localStorage.getItem('angel-booking'))state.lang='en';
 const persist=()=>{try{localStorage.setItem('angel-booking',JSON.stringify(state))}catch(e){}};
 const L=()=>S[state.lang];
 const fmt=n=>state.lang==='vi'?n.toLocaleString('vi-VN')+'đ':n.toLocaleString('en-US')+' VND';
